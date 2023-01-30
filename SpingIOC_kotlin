@@ -1,0 +1,25 @@
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
+
+fun main(args: Array<String>) {
+    val context = AnnotationConfigApplicationContext(AppConfig::class.java)
+    val service = context.getBean(MessageService::class.java)
+    service.sendMessage("Hallo ini adalah Spring IOC Kotlin")
+    context.close()
+}
+
+class AppConfig {
+    @Bean
+    fun messageService(): MessageService {
+        return EmailService()
+    }
+}
+
+interface MessageService {
+    fun sendMessage(message: String)
+}
+
+class EmailService : MessageService {
+    override fun sendMessage(message: String) {
+        println("Sending message through email: $message")
+    }
+}
